@@ -53,3 +53,15 @@ function getBranches(element) {
   req.open("GET", rootURL + "/repos/" + element.dataset.username + "/" + element.dataset.repository + "/branches")
   req.send()
 }
+
+function displayBranches() {
+  const branches = JSON.parse(this.responseText)
+  const branchesList = "<h2>Branches:</h2>" + "<ul>" + branches.map(
+    branch => {
+      return(`
+        <li>
+          "${branch.name}"
+          </li>`)
+    }).join('') + "</ul>";
+    document.getElementById("details").innerHTML = branchesList
+}
