@@ -36,7 +36,7 @@ function displayCommits() {
     const commits = JSON.parse(this.responseText)
     const commitList = "<ul>" + commits.map( commit => {
         return(`
-        <li> 
+        <li>
             <p><b>Commit from:</b> "${commit.author.login}", A.K.A. "${commit.commit.author.name}"</p>
             <p><b>Commit message:</b> "${commit.commit.message}"
         </li>`)
@@ -55,7 +55,7 @@ function displayBranches() {
     const branches = JSON.parse(this.responseText)
     const branchesList = "<h2>Branches:</h2>" + "<ul>" + branches.map( branch => {
         return(`
-        <li> 
+        <li>
             "${branch.name}"
         </li>`)
     }).join('') + "</ul>";
