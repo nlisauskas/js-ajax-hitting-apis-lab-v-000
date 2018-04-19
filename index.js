@@ -14,6 +14,42 @@ function displayRepositories(event, data) {
   const repoList = "<ul>" + repose.map( repo => {
     const dataUserName = 'data-username="' + repo.owner.login + '""'
     const dataRepoName = 'data-repository="' + repo.name + '""'
-  })
+    return(`
+      <li>
+        <h2>${repo.name}</h2>
+        <a href="${repo.html_url}">Link to Repository</a> <br>
+        <a href="#" ${dataRepoName} ${dataUserName}
+        onclick="getBranches(this)">See Branches</a>
+        </li>`)
+  }).join('') + "</ul>";
+  document.getElementById("repositories").innerHTML = repoList
 }
+
+function getCommits(element) {
+  const req = new XMLHttpRequest
+  req.addEventListener("load", displayCommits);
+  req.open("GET", rootURL + "/repos/" + element.dataset.username + "/" + element.dataset.repository + "/commits")
+  req.send()
+}
+
+function displayCommits() {
+  const commits = JSON.parse(this.responseText)
+  const commitList = "<ul>" + commits.map( commit => {
+    return {
+      `
+      <li>
+        <p><b>Commit from:</b> "${commit.author.login}", A.K.A. "${commit.commit.author.name}"</p>
+        <p><b>Commit Message:</b> "${commit.commit.message}"
+        </li>
+      `
+    }
+  }).join('') + "</ul>";
+  document.getElementById("details").innerHTML = commitList
+}
+
+function getBranches(element) {
+  const req = new XMLHttpRequest
+  req.addEventListener("load", displayBranches);
+  req.open("GET", rootURL + "/repos/" + element.dataset.username + "/" + element.dataset.repository + "/branches")
+  req.send()
 }
